@@ -1,0 +1,145 @@
+<!-- templates/core/faq.html -->
+{% extends 'base.html' %}
+{% block title %}FAQ - ModernBlog{% endblock %}
+
+{% block content %}
+
+<!-- Hero – exactly like your current About Us hero -->
+<section class="py-24 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 px-5 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 1.763-2 3.272-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3 2.954v2.046h-1.5v-2.5c1.722-.447 3-1.732 3-3.136 0-1.104-.688-2-1.5-2-.83 0-1.5.896-1.5 2h-1.5c0-1.876 1.344-3.5 3-3.5 1.657 0 3 1.124 3 2.5 0 1.06-.634 2.021-1.628 2.5H8.228z M12 16.5v.5"/>
+            </svg>
+            Help Center
+        </div>
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+            Frequently Asked<br class="hidden md:block"> Questions
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Got questions? We've got clear, honest answers.
+        </p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-20 bg-gray-50 dark:bg-gray-900/50">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+
+        <!-- FAQ Accordion -->
+        <div class="space-y-6">
+            <!-- FAQ Item -->
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden" open>
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>Is ModernBlog free to use?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Yes! Reading, writing, and publishing on ModernBlog is completely free. No paywalls, no subscriptions required.
+                </div>
+            </details>
+
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>Can I write and publish articles?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Absolutely! Anyone can sign up and publish articles instantly. No approval needed.
+                </div>
+            </details>
+
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>Do you accept guest posts?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    We don’t accept traditional guest posts. Instead, everyone publishes directly under their own name and profile.
+                </div>
+            </details>
+
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>Can I monetize my content?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Yes! We’re rolling out creator monetization tools (tips, subscriptions, etc.) in 2025.
+                </div>
+            </details>
+
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>How do I delete my account?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Go to Settings → Account → Delete Account. This action is permanent.
+                </div>
+            </details>
+
+            <details class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-lg text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <span>Who owns my content?</span>
+                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+                    You do! You retain full ownership and rights to everything you publish.
+                </div>
+            </details>
+        </div>
+
+        <!-- Still have questions? -->
+        <div class="mt-16 text-center bg-gradient-to-r from-blue-500/5 to-indigo-600/5 rounded-3xl p-10 border border-blue-200 dark:border-blue-800">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Still have questions?
+            </h3>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                We're here to help. Reach out anytime — we answer every email.
+            </p>
+            <a href="mailto:hello@modernblog.com" class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Email Us: hello@modernblog.com
+            </a>
+        </div>
+
+        <!-- Related Links -->
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="{% url 'core:privacy_policy' %}" class="group flex items-center justify-center gap-3 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-lg">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span class="font-semibold text-gray-900 dark:text-white">Privacy Policy</span>
+            </a>
+            <a href="{% url 'core:cookie_policy' %}" class="group flex items-center justify-center gap-3 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-lg">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.94 8a.75.75 0 100-1.5.75.75 0 000 1.5zm2.36 3a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3.75-.75a.75.75 0 100-1.5.75.75 0 000 1.5zm2.36 2.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm1.5-3.75a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd"/>
+                </svg>
+                <span class="font-semibold text-gray-900 dark:text-white">Cookie Policy</span>
+            </a>
+            <a href="{% url 'core:terms' %}" class="group flex items-center justify-center gap-3 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-lg">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="font-semibold text-gray-900 dark:text-white">Terms of Service</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
