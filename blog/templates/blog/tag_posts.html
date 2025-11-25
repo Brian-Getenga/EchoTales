@@ -1,0 +1,181 @@
+<!-- templates/blog/tag_posts.html -->
+{% extends 'base.html' %}
+
+{% block title %}#{{ tag.name }} - ModernBlog{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --tag-color-1: #8B5CF6;  /* purple */
+        --tag-color-2: #EC4899;  /* pink */
+    }
+    .dark {
+        --tag-color-1: #A78BFA;
+        --tag-color-2: #F472B6;
+    }
+
+    .tag-gradient {
+        background: linear-gradient(135deg, var(--tag-color-1), var(--tag-color-2));
+    }
+    .tag-accent { color: var(--tag-color-1); }
+    .tag-accent-hover:hover { color: var(--tag-color-1); }
+
+    .post-card {
+        @apply bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 hover:border-[var(--tag-color-1)];
+    }
+    .post-card img {
+        transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .post-card:hover img {
+        transform: scale(1.12);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="tag-gradient text-white py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <div class="text-9xl mb-6 opacity-90">Hashtag</div>
+        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight">
+            #{{ tag.name }}
+        </h1>
+        <p class="mt-8 text-2xl md:text-3xl font-light text-white/90 max-w-2xl mx-auto">
+            Explore all articles tagged with <span class="font-bold">"{{ tag.name }}"</span>
+        </p>
+
+        <div class="mt-10 inline-flex items-center gap-4 px-10 py-5 bg-white/20 backdrop-blur-lg rounded-full border border-white/30">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+            </svg>
+            <span class="text-2xl font-bold">{{ posts.paginator.count }} article{{ posts.paginator.count|pluralize }}</span>
+        </div>
+    </div>
+
+    <!-- Decorative waves -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 45C840 60 960 90 1080 97.5C1200 105 1320 90 1380 82.5L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" class="dark:fill-gray-900"/>
+        </svg>
+    </div>
+</section>
+
+<!-- Posts Grid -->
+<section class="max-w-7xl mx-auto px-6 lg:px-8 py-20 -mt-10 relative z-20">
+    {% if posts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {% for post in posts %}
+        <article class="post-card group">
+            <a href="{{ post.get_absolute_url }}" class="block h-full">
+                <div class="h-64 overflow-hidden bg-gray-200 dark:bg-gray-700">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+                             class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full tag-gradient"></div>
+                    {% endif %}
+                </div>
+
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-5 text-sm">
+                        {% if post.category %}
+                            <span class="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 text-purple-700 dark:text-purple-300 rounded-full text-xs font-bold">
+                                {{ post.category.name }}
+                            </span>
+                        {% endif %}
+                        <time class="text-gray-500">
+                            {{ post.published_at|date:"M j, Y" }}
+                        </time>
+                    </div>
+
+                    <h3 class="text-2xl font-extrabold text-gray-900 dark:text-white line-clamp-2 mb-4 group-hover:tag-accent transition">
+                        {{ post.title }}
+                    </h3>
+
+                    {% if post.excerpt %}
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 mb-6">
+                        {{ post.excerpt }}
+                    </p>
+                    {% endif %}
+
+                    <div class="flex items-center justify-between pt-5 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ post.author.get_full_name|default:post.author.username }}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-5 text-sm text-gray-500">
+                            <span class="flex items-center gap-1">
+                                Eye {{ post.views|default:0 }}
+                            </span>
+                            <span class="flex items-center gap-1">
+                                Heart {{ post.like_count|default:0 }}
+                            </span>
+                            <span class="flex items-center gap-1">
+                                Clock {{ post.reading_time }} min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-32">
+        <div class="w-32 h-32 mx-auto mb-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+            </svg>
+        </div>
+        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">No posts yet</h3>
+        <p class="text-xl text-gray-600 dark:text-gray-400">No articles tagged with "{{ tag.name }}" at the moment.</p>
+    </div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <nav class="flex justify-center items-center gap-6 mt-20" aria-label="Pagination">
+        {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}"
+               class="flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-xl hover:border-[var(--tag-color-1)] transition font-medium shadow-lg hover:shadow-xl">
+                Previous
+            </a>
+        {% endif %}
+
+        <div class="px-10 py-5 tag-gradient text-white font-bold rounded-xl shadow-2xl text-lg">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </div>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}"
+               class="flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-xl hover:border-[var(--tag-color-1)] transition font-medium shadow-lg hover:shadow-xl">
+                Next
+            </a>
+        {% endif %}
+    </nav>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Optional: Randomize tag gradient per tag (fun touch)
+    const tagName = "{{ tag.name|lower }}";
+    const gradients = [
+        { c1: '#8B5CF6', c2: '#EC4899' }, // purple-pink
+        { c1: '#3B82F6', c2: '#10B981' }, // blue-green
+        { c1: '#F59E0B', c2: '#EF4444' }, // amber-red
+        { c1: '#06B6D4', c2: '#8B5CF6' }, // cyan-purple
+    ];
+    const hash = tagName.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+    const grad = gradients[hash % gradients.length];
+
+    document.documentElement.style.setProperty('--tag-color-1', grad.c1);
+    document.documentElement.style.setProperty('--tag-color-2', grad.c2);
+</script>
+{% endblock %}

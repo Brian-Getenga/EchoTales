@@ -1,0 +1,138 @@
+<!-- templates/blog/category_posts.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - ModernBlog{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Dynamic category color — safe & clean via inline style from Django */
+    :root {
+        --category-color: {{ category.get_color_hex|default:"#3B82F6" }};
+    }
+    .cat-accent { color: var(--category-color); }
+    .cat-bg { background-color: var(--category-color); }
+    .cat-bg-light { background-color: var(--category-color); opacity: 0.1; }
+    .cat-border { border-color: var(--category-color); }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="py-20 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <div class="text-8xl mb-6">{{ category.icon|default:"Folder" }}</div>
+
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+            {{ category.name }}
+        </h1>
+
+        {% if category.description %}
+        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            {{ category.description }}
+        </p>
+        {% endif %}
+
+        <div class="mt-10 inline-flex items-center gap-3 px-8 py-4 cat-bg-light cat-accent rounded-full text-lg font-medium border-2 cat-border">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>{{ posts.paginator.count }} article{{ posts.paginator.count|pluralize }}</span>
+        </div>
+    </div>
+</section>
+
+<!-- Posts Grid -->
+<section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+    {% if posts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for post in posts %}
+        <article class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition">
+            <a href="{{ post.get_absolute_url }}" class="block h-full">
+                <div class="h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+                             class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                    {% else %}
+                        <div class="w-full h-full bg-gray-300 dark:bg-gray-700"></div>
+                    {% endif %}
+                </div>
+
+                <div class="p-6">
+                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                        <time>{{ post.published_at|date:"M j, Y" }}</time>
+                        <span>{{ post.reading_time }} min read</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white line-clamp-2 mb-3 hover:cat-accent transition">
+                        {{ post.title }}
+                    </h2>
+
+                    {% if post.excerpt %}
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4">
+                        {{ post.excerpt }}
+                    </p>
+                    {% endif %}
+
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center gap-3">
+                            {% if post.author.profile.avatar %}
+                                <img src="{{ post.author.profile.avatar.url }}" alt="{{ post.author }}"
+                                     class="w-9 h-9 rounded-full">
+                            {% else %}
+                                <div class="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    {{ post.author.username.0|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ post.author.get_full_name|default:post.author.username }}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                            <span>Views {{ post.views|default:0 }}</span>
+                            <span>Likes {{ post.like_count|default:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+        <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+            </svg>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No articles yet</h3>
+        <p class="text-gray-600 dark:text-gray-400">This category is currently empty.</p>
+    </div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <nav class="flex justify-center items-center gap-4 mt-16" aria-label="Pagination">
+        {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+               class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
+                Previous
+            </a>
+        {% endif %}
+
+        <span class="px-6 py-3 bg-[var(--category-color)] text-white rounded-lg font-medium">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+               class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium">
+                Next
+            </a>
+        {% endif %}
+    </nav>
+    {% endif %}
+</section>
+{% endblock %}

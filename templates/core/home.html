@@ -1,0 +1,296 @@
+<!-- templates/blog/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}ModernBlog - Professional Insights & Articles{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --primary: #3B82F6;      /* Professional blue */
+        --primary-hover: #2563EB;
+        --secondary: #64748B;   /* Slate gray */
+        --bg: #FFFFFF;
+        --surface: #F8FAFC;
+        --border: #E2E8F0;
+        --text: #1E293B;
+        --text-secondary: #475569;
+    }
+    .dark {
+        --bg: #0F172A;
+        --surface: #1E293B;
+        --border: #334155;
+        --text: #F1F5F9;
+        --text-secondary: #94A3B8;
+    }
+
+    .reading-progress {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--primary);
+        z-index: 9999;
+        transform-origin: left;
+        transition: transform 0.2s ease-out;
+    }
+
+    .card {
+        @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+{% endblock %}
+
+{% block extra_body %}
+<div class="reading-progress" id="readingProgress"></div>
+
+<script>
+    // Reading progress bar (useful, lightweight)
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('readingProgress').style.transform = `scaleX(${scrolled / 100})`;
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Clean & Professional -->
+<section class="bg-[var(--bg)] dark:bg-[#0F172A] py-24 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-5 py-2 bg-blue-50 dark:bg-blue-900/20 text-primary rounded-full text-sm font-medium mb-8">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                Professional insights, delivered weekly
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-bold text-[var(--text)] dark:text-white leading-tight">
+                Articles That Help You<br>
+                <span class="text-primary">Grow Professionally</span>
+            </h1>
+
+            <p class="mt-8 text-xl text-[var(--text-secondary)] leading-relaxed">
+                In-depth writing on software development, product strategy, leadership, and modern work — 
+                trusted by over 50,000 engineers and founders.
+            </p>
+
+            <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'blog:post_list' %}" 
+                   class="px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-hover transition">
+                    Browse Articles
+                </a>
+                <a href="#newsletter" 
+                   class="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-[var(--text)] dark:text-white font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                    Subscribe Free
+                </a>
+            </div>
+
+            <div class="mt-16 grid grid-cols-3 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold text-primary">{{ posts.paginator.count|add:featured_posts|length|default:"1200" }}+</div>
+                    <div class="text-sm text-[var(--text-secondary)] mt-2">Articles Published</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-primary">50K+</div>
+                    <div class="text-sm text-[var(--text-secondary)] mt-2">Monthly Readers</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-primary">{{ categories.count|default:"24" }}</div>
+                    <div class="text-sm text-[var(--text-secondary)] mt-2">Active Topics</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Articles -->
+{% if featured_posts %}
+<section class="py-20 bg-[var(--surface)] dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-[var(--text)] dark:text-white">Editor's Choice</h2>
+                <p class="text-[var(--text-secondary)] mt-2">Curated articles worth your time</p>
+            </div>
+            <a href="{% url 'blog:post_list' %}?featured=1" class="text-primary font-medium hover:underline">
+                View All →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for post in featured_posts %}
+            <article class="card">
+                <a href="{{ post.get_absolute_url }}" class="block">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-56 object-cover">
+                    {% else %}
+                        <div class="w-full h-56 bg-gray-200 dark:bg-gray-700"></div>
+                    {% endif %}
+
+                    <div class="p-6">
+                        {% if post.category %}
+                        <span class="inline-block px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-primary text-xs font-medium rounded-full mb-3">
+                            {{ post.category.name }}
+                        </span>
+                        {% endif %}
+
+                        <h3 class="text-xl font-semibold text-[var(--text)] dark:text-white line-clamp-2 mb-3">
+                            {{ post.title }}
+                        </h3>
+
+                        <p class="text-[var(--text-secondary)] text-sm line-clamp-2 mb-4">
+                            {{ post.excerpt|default:"A thoughtfully written piece exploring important ideas in depth." }}
+                        </p>
+
+                        <div class="flex items-center justify-between text-sm text-[var(--text-secondary)]">
+                            <span>{{ post.author.get_full_name|default:post.author.username }}</span>
+                            <span>{{ post.reading_time }} min read</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Categories -->
+{% if categories %}
+<section class="py-20 bg-[var(--bg)] dark:bg-[#0F172A]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-[var(--text)] dark:text-white">Browse by Topic</h2>
+            <p class="text-[var(--text-secondary)] mt-2">Find content that matches your interests</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {% for category in categories|slice:":12" %}
+            <a href="{{ category.get_absolute_url }}"
+               class="group p-6 bg-[var(--surface)] dark:bg-gray-800 rounded-lg border border-[var(--border)] hover:border-primary transition text-center">
+                <div class="text-4xl mb-3">{{ category.icon|default:"Document" }}</div>
+                <h3 class="font-semibold text-[var(--text)] dark:text-white group-hover:text-primary transition">
+                    {{ category.name }}
+                </h3>
+                <p class="{{ category.num_posts|yesno:'text-sm,text-gray-400' }} text-[var(--text-secondary)] text-xs mt-1">
+                    {{ category.num_posts }} article{{ category.num_posts|pluralize }}
+                </p>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-10">
+            <a href="{% url 'blog:category_list' %}" class="text-primary font-medium hover:underline">
+                View all categories →
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest Posts -->
+<section class="py-20 bg-[var(--surface)] dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-[var(--text)] dark:text-white">Latest Articles</h2>
+                <p class="text-[var(--text-secondary)] mt-2">Fresh perspectives, published regularly</p>
+            </div>
+            <a href="{% url 'blog:post_list' %}" class="text-primary font-medium hover:underline">
+                View All →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for post in posts|slice:":8" %}
+            <article class="card">
+                <a href="{{ post.get_absolute_url }}" class="block">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                    {% else %}
+                        <div class="w-full h-48 bg-gray-200 dark:bg-gray-700"></div>
+                    {% endif %}
+
+                    <div class="p-5">
+                        <div class="flex items-center justify-between text-xs text-[var(--text-secondary)] mb-3">
+                            {% if post.category %}
+                            <span class="font-medium text-primary">{{ post.category.name }}</span>
+                            {% endif %}
+                            <time>{{ post.published_at|date:"M j, Y" }}</time>
+                        </div>
+                        <h3 class="font-semibold text-[var(--text)] dark:text-white line-clamp-2 mb-2">
+                            {{ post.title }}
+                        </h3>
+                        <div class="text-xs text-[var(--text-secondary)] flex items-center justify-between mt-4">
+                            <span>{{ post.author.username }}</span>
+                            <span>{{ post.reading_time }} min</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <div class="col-span-full text-center py-16">
+                <p class="text-lg text-[var(--text-secondary)]">No articles published yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section id="newsletter" class="py-20 bg-primary text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">Stay Updated</h2>
+        <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+            Get the best new articles delivered to your inbox every Friday. No spam. Unsubscribe anytime.
+        </p>
+
+        <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            {% csrf_token %}
+            <input type="email" name="email" required placeholder="your@email.com"
+                   class="flex-1 px-6 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/30">
+            <button type="submit" class="px-8 py-4 bg-white text-primary font-bold rounded-lg hover:bg-gray-100 transition">
+                Subscribe
+            </button>
+        </form>
+        <p class="mt-4 text-sm text-blue-100">Join 50,000+ professionals</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Clean, reliable newsletter submission
+    document.getElementById('newsletter-form')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button');
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Subscribing...';
+
+        try {
+            const res = await fetch("{% url 'blog:newsletter_subscribe' %}", {
+                method: 'POST',
+                body: new FormData(this),
+            });
+            const data = await res.json();
+            if (data.success) {
+                btn.textContent = 'Thank you!';
+                btn.style.background = '#10B981';
+                this.reset();
+            } else {
+                alert(data.message || 'Please try again later.');
+                btn.textContent = original;
+                btn.disabled = false;
+            }
+        } catch {
+            alert('Network error. Please check your connection.');
+            btn.textContent = original;
+            btn.disabled = false;
+        }
+    });
+</script>
+{% endblock %}

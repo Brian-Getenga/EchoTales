@@ -1,0 +1,61 @@
+# ===============================
+# Django & Python .gitignore
+# ===============================
+
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Django static and media files
+staticfiles/
+media/
+
+# Local environment files
+.env
+*.env
+
+# Database (if using SQLite locally)
+db.sqlite3
+
+# Logs and system files
+*.log
+*.pot
+*.pyc
+*.so
+*.mo
+*.db
+*.swp
+*.swo
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage and reports
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
