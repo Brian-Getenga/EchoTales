@@ -1,7 +1,0 @@
-pip install django==5.2
-pip install django-crispy-forms
-pip install django-tinymce
-pip install django-markdownx
-pip install pygments  # For code highlighting in Markdown
-pip install gunicorn whitenoise dj-database-url psycopg2-binary python-dotenv
-pip freeze > requirements.txt
