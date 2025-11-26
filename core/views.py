@@ -26,42 +26,120 @@ def about(request):
         'top_authors': top_authors,
     }
     return render(request, 'core/about.html', context)
+# blog/views.py (or wherever your views are)
+
+from django.db.models import Count, Q, Sum
+from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
+
+from blog.models import Post, Category, Tag, Newsletter
 
 
 def home(request):
-    # Featured posts (highlighted on hero section)
+    """
+    Ultra-fast, fully compatible homepage view for the new
+ magazine-style ModernBlog homepage.
+    """
+    
+    # 1. Featured Posts – 1 hero + up to 4 side cards (max 5)
     featured_posts = (
         Post.objects.filter(status='published', is_featured=True)
         .select_related('author', 'category')
         .prefetch_related('tags')
-        .order_by('-published_at', '-created_at')[:3]
+        .order_by('-published_at')[:5]
     )
 
-    # Latest posts (displayed under "Latest Posts" section)
-    posts = (
+    # 2. Latest Posts – 8 for the "Latest Articles" grid
+    latest_posts = (
         Post.objects.filter(status='published')
         .select_related('author', 'category')
         .prefetch_related('tags')
-        .order_by('-published_at', '-created_at')[:12]
+        .order_by('-published_at')[:8]
     )
 
-    # Categories (displayed under "Explore Topics")
+    # 3. Categories – with post count (using your model's method via annotation)
     categories = (
         Category.objects.annotate(
-            num_posts=Count('posts', filter=Q(posts__status='published'))
+            num_posts=Count(
+                'posts',
+                filter=Q(posts__status='published')
+            )
         )
-        .order_by('-num_posts', 'name')[:6]
+        .filter(num_posts__gt=0)
+        .order_by('-num_posts', 'name')[:12]
+    )
+
+    # 4. Popular Tags – top 24 by usage
+    popular_tags = (
+        Tag.objects.annotate(
+            post_count=Count(
+                'posts',
+                filter=Q(posts__status='published')
+            )
+        )
+        .filter(post_count__gt=0)
+        .order_by('-post_count', 'name')[:24]
+    )
+
+    # 5. Dynamic Statistics
+    total_posts = Post.objects.filter(status='published').count()
+
+    total_views = (
+        Post.objects.filter(status='published')
+        .aggregate(total=Sum('views'))['total'] or 0
+    )
+
+    newsletter_count = Newsletter.objects.filter(is_active=True).count()
+
+    total_authors = (
+        Post.objects.filter(status='published')
+        .values('author').distinct()
+        .count()
+    )
+
+    # Posts this month – for the live badge
+    now = timezone.now()
+    posts_this_month = Post.objects.filter(
+        status='published',
+        published_at__year=now.year,
+        published_at__month=now.month,
+    ).count()
+
+    # 6. Trending Posts (last 30 days, high views) – for optional "Trending" badge
+    thirty_days_ago = now - timedelta(days=30)
+    trending_post_ids = list(
+        Post.objects.filter(
+            status='published',
+            published_at__gte=thirty_days_ago
+        )
+        .order_by('-views')[:10]
+        .values_list('id', flat=True)
     )
 
     context = {
+        # Main sections
         'featured_posts': featured_posts,
-        'posts': posts,                # <- matches {% for post in posts|slice:":12" %}
-        'categories': categories,      # <- matches {% for category in categories %}
+        'posts': latest_posts,  # renamed for clarity
+        'categories': categories,
+        'popular_tags': popular_tags,
+
+        # Stats (used in hero + newsletter)
+        'total_posts': total_posts,
+        'total_views': total_views,
+        'newsletter_count': newsletter_count,
+        'total_authors': total_authors,
+        'posts_this_month': posts_this_month,
+
+        # Optional: for "Trending" badge in template
+        'trending_post_ids': trending_post_ids,
+
+        # SEO
+        'page_title': 'ModernBlog – Professional Insights & Articles',
+        'page_description': 'Deep dives into software engineering, leadership, and innovation.',
     }
+
     return render(request, 'core/home.html', context)
-
-
-
 
 def contact(request):
     if request.method == 'POST':

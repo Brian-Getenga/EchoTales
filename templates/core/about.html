@@ -1,214 +1,283 @@
-<!-- templates/core/about.html -->
 {% extends 'base.html' %}
-{% block title %}About ModernBlog - A Home for Thoughtful Writing{% endblock %}
+{% block title %}About EchoTales – A Platform for Serious Writers{% endblock %}
+
+{% block extra_head %}
+<!-- Reading Progress Bar (lightweight, no JS frameworks) -->
+<style>
+    :root {
+        --primary: #3B82F6;
+        --primary-hover: #2563EB;
+        --gray-50: #F9FAFB;
+        --gray-100: #F3F4F6;
+        --gray-200: #E5E7EB;
+        --gray-300: #D1D5DB;
+        --gray-500: #6B7280;
+        --gray-700: #374151;
+        --gray-800: #1F2937;
+        --gray-900: #111827;
+        --indigo-600: #4F46E5;
+    }
+    .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: var(--primary);
+        width: 0%;
+        z-index: 50;
+        transition: width 0.2s ease;
+    }
+    html { scroll-behavior: smooth; }
+</style>
+{% endblock %}
 
 {% block content %}
 
-<!-- Hero Section (Matched Style) -->
-<section class="py-24 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-        <div class="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-8 border border-primary/20">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+<!-- Reading Progress Bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Hero: Clean, Authoritative -->
+<section class="pt-32 pb-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <div class="inline-flex items-center gap-2 px-5 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium mb-8 border border-blue-200 dark:border-blue-800">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
             </svg>
-            A New Kind of Publishing Platform
+            A publishing platform built for depth
         </div>
 
-        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-            The Internet<br class="hidden md:block">Deserves Better Writing
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+            Writing deserves<br>
+            <span class="text-blue-600">better than noise.</span>
         </h1>
 
-        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            ModernBlog was born from a simple belief: great ideas shouldn't fight for attention in a sea of noise.
+        <p class="mt-8 text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
+            EchoTales is a minimalist, ad-free home for long-form writing. No algorithms. No distractions. Just ideas worth reading.
         </p>
     </div>
 </section>
 
-
-<!-- The Origin Story -->
-<section class="py-24 bg-white dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8">
-                    It Started With<br>One Frustrated Writer
-                </h2>
-                <div class="prose prose-lg dark:prose-invert space-y-6 text-gray-600 dark:text-gray-300">
-                    <p class="text-xl leading-relaxed">
-                        In 2023, I published what I thought was my best work yet — 4 months of research, 40 interviews, 6,000 words of insight.
-                    </p>
-                    <p class="leading-relaxed">
-                        It got 127 views. Buried under clickbait, ads, popups, and paywalls.
-                    </p>
-                    <p class="leading-relaxed font-medium text-blue-600 dark:text-blue-400">
-                        That day, I decided: <strong>the internet needs a better home for serious writing</strong>.
-                    </p>
-                    <p class="leading-relaxed">
-                        No distractions. No algorithms gaming engagement. No dark patterns.
-                    </p>
-                    <p class="text-xl leading-relaxed font-semibold">
-                        Just writers doing their best work — and readers actually reading it.
-                    </p>
-                </div>
-            </div>
-            <div class="relative">
-                <div class="bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-1xl p-12 shadow-1xl border border-blue-200 dark:border-blue-800">
-                    <blockquote class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white italic leading-tight">
-                        “I just wanted a place where my writing could breathe.”
-                    </blockquote>
-                    <p class="mt-6 text-right text-lg font-medium text-blue-600 dark:text-blue-400">
-                        — {{ founder.get_full_name }}, Founder
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Timeline: The Journey -->
+<!-- Origin Story: Two-Column, Professional -->
 <section class="py-24 bg-gray-50 dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-20">
-            Our Journey So Far
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="text-center">
-                <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-lg">1</div>
-                <h3 class="text-xl font-bold mb-2">Late 2023</h3>
-                <p class="text-gray-600 dark:text-gray-400">Idea born from frustration</p>
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white">
+                    Built from a simple frustration
+                </h2>
+                <div class="mt-8 space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p>
+                        In 2024, a 6,000-word investigative piece — the result of four months of work — was buried by algorithms within hours.
+                    </p>
+                    <p>
+                        The problem wasn’t the writing. It was the platform.
+                    </p>
+                    <p class="text-gray-800 dark:text-gray-200 font-medium">
+                        EchoTales was created to fix that.
+                    </p>
+                    <p>
+                        A space where serious writers can publish without fighting pop-ups, paywalls, or engagement bait.
+                    </p>
+                    <p>
+                        Where readers come to read — not to scroll.
+                    </p>
+                </div>
             </div>
-            <div class="text-center">
-                <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-lg">2</div>
-                <h3 class="text-xl font-bold mb-2">Early 2024</h3>
-                <p class="text-gray-600 dark:text-gray-400">Built first version in public</p>
-            </div>
-            <div class="text-center">
-                <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-lg">3</div>
-                <h3 class="text-xl font-bold mb-2">Mid 2024</h3>
-                <p class="text-gray-600 dark:text-gray-400">100+ writers joined</p>
-            </div>
-            <div class="text-center">
-                <div class="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold shadow-lg">→</div>
-                <h3 class="text-xl font-bold mb-2">Today</h3>
-                <p class="text-gray-600 dark:text-gray-400"><strong>{{ total_posts }}+</strong> articles and growing</p>
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-10 shadow-lg border border-gray-200 dark:border-gray-700">
+                <blockquote class="text-2xl font-medium text-gray-800 dark:text-gray-200 italic leading-relaxed">
+                    “We don’t optimize for time on site.<br>
+                    We optimize for time well spent.”
+                </blockquote>
+                <footer class="mt-8 text-right">
+                    <p class="font-semibold text-blue-600 dark:text-blue-400">
+                        — {{ founder.get_full_name|default:"The Founder" }}
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Creator, EchoTales</p>
+                </footer>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Values: Now with Icons & Depth -->
+<!-- Principles: Clean Cards -->
 <section class="py-24 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-20">
-            What We Believe In
+        <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-16">
+            Our Principles
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="group text-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        <div class="grid md:grid-cols-3 gap-10">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600 text-white rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4">Depth Over Speed</h3>
-                <p class="text-gray-600 dark:text-gray-400">We celebrate long-form, research-backed writing that takes time to create and time to read.</p>
+                <h3 class="text-xl font-semibold mb-3">Depth First</h3>
+                <p class="text-gray-600 dark:text-gray-400">We prioritize long-form, thoughtful content over quick hits.</p>
             </div>
-            <div class="group text-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-indigo-600 text-white rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6-4h6m-6 8h6m-9 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4">Writers Are Owners</h3>
-                <p class="text-gray-600 dark:text-gray-400">You keep full rights. Full control. No exploitative revenue shares. Ever.</p>
+                <h3 class="text-xl font-semibold mb-3">Writer Ownership</h3>
+                <p class="text-gray-600 dark:text-gray-400">You retain full rights and control over your work. Always.</p>
             </div>
-            <div class="group text-center">
-                <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gray-700 text-white rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4">Trust & Transparency</h3>
-                <p class="text-gray-600 dark:text-gray-400">Open source roadmap. No dark patterns. No ads. No data selling.</p>
+                <h3 class="text-xl font-semibold mb-3">No Compromise</h3>
+                <p class="text-gray-600 dark:text-gray-400">No ads. No tracking. No dark patterns. Ever.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Live Stats: Bigger & Bolder -->
-<section class="py-28 bg-gradient-to-br from-slate-50 to-blue-50 text-dark-700">
+<!-- Stats: Clean & Confident -->
+<section class="py-20 bg-gray-50 dark:bg-gray-800 border-y border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
             <div>
-                <div class="text-6xl md:text-7xl font-extrabold mb-4">{{ total_posts }}+</div>
-                <p class="text-xl text-blue-500">Articles Published</p>
+                <div class="text-5xl font-bold text-gray-900 dark:text-white">{{ total_posts }}+</div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Articles Published</p>
             </div>
             <div>
-                <div class="text-6xl md:text-7xl font-extrabold mb-4">{{ active_authors }}+</div>
-                <p class="text-xl text-blue-600">Active Writers</p>
+                <div class="text-5xl font-bold text-gray-900 dark:text-white">{{ active_authors }}+</div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Active Writers</p>
             </div>
             <div>
-                <div class="text-6xl md:text-7xl font-extrabold mb-4">{{ category_count }}</div>
-                <p class="text-xl text-blue-600">Topics Explored</p>
+                <div class="text-5xl font-bold text-gray-900 dark:text-white">{{ category_count }}</div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Topics Covered</p>
             </div>
             <div>
-                <div class="text-6xl md:text-7xl font-extrabold mb-4">100%</div>
-                <p class="text-xl text-blue-600">Reader-Funded & Ad-Free</p>
+                <div class="text-5xl font-bold text-gray-900 dark:text-white">100%</div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Ad-Free</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Featured Authors -->
-<section class="py-24 bg-white dark:bg-gray-900">
+<!-- Featured Writers – Modern & Professional -->
+<section class="py-28 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-16">
-            Built by Writers, for Writers
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white">
+                Featured Writers
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                Thoughtful voices shaping meaningful conversations
+            </p>
+        </div>
+
+        <!-- Authors Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {% for author in top_authors %}
-            <a href="{% url 'blog:author_posts' author.username %}" class="group block">
-                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 text-center hover:shadow-2xl transition-all group-hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
-                    {% if author.profile.avatar %}
-                        <img src="{{ author.profile.avatar.url }}" alt="{{ author.get_full_name }}" class="w-28 h-28 rounded-full mx-auto mb-6 object-cover shadow-lg">
-                    {% else %}
-                        <div class="w-28 h-28 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                            {{ author.get_full_name.0|upper }}
+                <a href="{% url 'blog:author_posts' author.username %}" 
+                   class="group block rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 hover:-translate-y-1">
+                    
+                    <div class="p-8 text-center">
+                        <!-- Avatar -->
+                        <div class="relative mx-auto w-28 h-28 mb-6">
+                            {% if author.profile.avatar %}
+                                <img src="{{ author.profile.avatar.url }}" 
+                                     alt="{{ author.get_full_name|default:author.username }}" 
+                                     class="w-full h-full rounded-full object-cover ring-4 ring-white dark:ring-gray-900 shadow-lg">
+                            {% else %}
+                                <div class="w-full h-full bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg ring-4 ring-white dark:ring-gray-900">
+                                    {{ author.username.0|upper }}
+                                </div>
+                            {% endif %}
+                            <!-- Online indicator (optional, remove if not needed) -->
+                            <span class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 rounded-full border-3 border-white dark:border-gray-900"></span>
                         </div>
-                    {% endif %}
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ author.get_full_name|default:author.username }}</h3>
-                    <p class="text-blue-600 dark:text-blue-400 font-medium">{{ author.posts.published.count }} articles</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-3 line-clamp-2">{{ author.profile.bio|default:"Passionate writer sharing insights on life and technology." }}</p>
-                </div>
-            </a>
+
+                        <!-- Name & Stats -->
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            {{ author.get_full_name|default:author.username }}
+                        </h3>
+                        
+                        <div class="mt-2 flex items-center justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                            <span class="font-medium text-blue-600 dark:text-blue-400">
+                                {{ author.posts.published.count }} articles
+                            </span>
+                            <span class="text-gray-400">•</span>
+                            <span>
+                                {{ author.posts.published.count|floatformat:0 }}k reads
+                            </span>
+                        </div>
+
+                        <!-- Short bio (optional but recommended) -->
+                        {% if author.profile.bio %}
+                            <p class="mt-4 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                                {{ author.profile.bio|truncatewords:12 }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Hover overlay arrow -->
+                    <div class="flex justify-center pb-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </div>
+                </a>
             {% empty %}
-            <p class="col-span-3 text-center text-gray-500">Amazing writers are joining every week...</p>
+                <div class="col-span-full text-center py-16">
+                    <p class="text-lg text-gray-500 dark:text-gray-400">
+                        New writers are joining every week. Check back soon.
+                    </p>
+                </div>
             {% endfor %}
         </div>
+
+        <!-- Optional: View all writers link -->
+        {% if top_authors %}
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                    View all writers
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        {% endif %}
     </div>
 </section>
-
-<!-- Final CTA: Emotional Close -->
-<section class="py-32 bg-gray-900 text-white">
-    <div class="max-w-5xl mx-auto px-6 lg:px-8 text-center">
-        <h2 class="text-5xl md:text-6xl font-extrabold mb-8">
-            Ready to Write Something<br>That Actually Matters?
+<!-- CTA: Clean, Direct, Professional -->
+<section class="py-28 bg-blue-600">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+            Ready to publish your best work?
         </h2>
-        <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Join a community that values depth, craft, and ideas worth sharing.
+        <p class="text-xl text-blue-100 mb-10">
+            Join a community that values clarity, depth, and craft.
         </p>
-        <div class="flex flex-col sm:flex-row gap-8 justify-center">
-            <a href="/admin/login/" class="px-12 py-6 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all">
-                Start Writing Free
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <a href="/admin/login/" class="px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">
+                Start Writing
             </a>
-            <a href="{% url 'blog:post_list' %}" class="px-12 py-6 border-2 border-white/50 hover:bg-white/10 font-bold text-xl rounded-2xl backdrop-blur-sm transition-all">
-                Explore the Archive
+            <a href="{% url 'blog:post_list' %}" class="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition">
+                Browse Articles
             </a>
         </div>
-        <p class="mt-12 text-gray-400 text-lg">
-            No ads • No paywalls • Just great writing
-        </p>
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<!-- Reading Progress Bar – lightweight, vanilla JS -->
+<script>
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+</script>
 {% endblock %}

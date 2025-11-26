@@ -5,59 +5,41 @@
 
 {% block content %}
 <!-- Hero -->
-<header class="py-20 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-        <div class="inline-flex items-center gap-2 px-5 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
-            Topics
+<header class="py-16 md:py-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 rounded-full">
+                Topics
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                Browse All Categories
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Explore in-depth content across technology, design, productivity, and professional development.
+            </p>
         </div>
-        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Browse All Categories
-        </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Explore in-depth content across technology, design, productivity, and professional development.
-        </p>
     </div>
 </header>
 
-<div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-center">
-        <div>
-            <div class="text-5xl font-bold text-primary">{{ categories.count }}</div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Categories</p>
-        </div>
-        <div>
-            <div class="text-5xl font-bold text-primary">
-                {% with total=0 %}
-                    {% for c in categories %}
-                        {% if c.num_posts %}{% with total=total|add:c.num_posts %}{% endwith %}{% endif %}
-                    {% endfor %}
-                    {{ total }}
-                {% endwith %}
-            </div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Total Articles</p>
-        </div>
-        <div>
-            <div class="text-5xl font-bold text-primary">{{ categories|length }}</div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Active Topics</p>
-        </div>
-        <div>
-            <div class="text-5xl font-bold text-primary">Weekly</div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">New Content</p>
-        </div>
-    </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
 
     <!-- Search & Sort -->
-    <div class="flex flex-col sm:flex-row gap-4 mb-12">
+    <div class="flex flex-col sm:flex-row gap-3 mb-10">
         <div class="flex-1 relative">
-            <input type="text" id="searchInput" placeholder="Search categories..."
-                   class="w-full pl-12 pr-6 py-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition text-gray-900 dark:text-white">
-            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search categories..."
+                aria-label="Search categories"
+                class="w-full pl-11 pr-4 py-3 text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 dark:placeholder-gray-400">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
         </div>
-        <select id="sortSelect" class="px-6 py-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition">
+        <select 
+            id="sortSelect" 
+            aria-label="Sort categories"
+            class="px-4 py-3 text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="popular">Most Popular</option>
             <option value="name">Name (A-Z)</option>
             <option value="newest">Newest First</option>
@@ -65,46 +47,44 @@
     </div>
 
     <!-- Categories Grid -->
-    <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for category in categories %}
             {% if category.num_posts > 0 %}
             <a href="{{ category.get_absolute_url }}"
-               class="group block bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8 hover:shadow-lg hover:border-primary/50 transition"
+               class="group block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200"
                data-name="{{ category.name|lower }}"
                data-count="{{ category.num_posts }}"
                data-created="{{ category.created_at|date:'U' }}">
 
-                <div class="flex items-start justify-between mb-6">
-                    <div class="text-5xl">{{ category.icon|default:"Folder" }}</div>
-                    <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                        {{ category.num_posts }} post{{ category.num_posts|pluralize }}
+                <div class="flex items-start justify-between mb-4">
+                    <div class="text-4xl">{{ category.icon|default:"📁" }}</div>
+                    <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-semibold">
+                        {{ category.num_posts }}
                     </span>
                 </div>
 
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary transition">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {{ category.name }}
                 </h3>
 
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3">
-                    {{ category.description|default:"Articles and insights on this topic."|truncatewords:20 }}
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">
+                    {{ category.description|default:"Articles and insights on this topic."|truncatewords:15 }}
                 </p>
 
-                <div class="mt-6 flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-500 pt-4 border-t border-gray-100 dark:border-gray-700">
                     <span>Since {{ category.created_at|date:"M Y" }}</span>
-                    <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 translate-x-0 group-hover:translate-x-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                    <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
                 </div>
             </a>
             {% endif %}
         {% empty %}
-            <div class="col-span-full text-center py-20">
-                <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No categories yet</h3>
+            <div class="col-span-full py-16 text-center">
+                <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2"/>
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">No categories yet</h3>
                 <p class="text-gray-600 dark:text-gray-400">New topics are added regularly.</p>
             </div>
         {% endfor %}
@@ -112,21 +92,21 @@
 
     <!-- Popular Categories -->
     {% if categories %}
-    <section class="mt-20">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-3">Most Popular Topics</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400">Where readers spend the most time</p>
+    <section class="mt-16 md:mt-20">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">Most Popular Topics</h2>
+            <p class="text-gray-600 dark:text-gray-400">Where readers spend the most time</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {% for category in categories|slice:":8" %}
                 {% if category.num_posts > 2 %}
-                <a href="{{ category.get_absolute_url }}" class="group block text-center">
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-10 border-2 border-transparent hover:border-primary transition">
-                        <div class="text-6xl mb-5">{{ category.icon|default:"Document" }}</div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{{ category.name }}</h3>
-                        <p class="text-primary font-medium">{{ category.num_posts }} articles</p>
-                    </div>
+                <a href="{{ category.get_absolute_url }}" class="group block text-center p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-200">
+                    <div class="text-5xl mb-3">{{ category.icon|default:"📄" }}</div>
+                    <h3 class="text-base md:text-lg font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {{ category.name }}
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ category.num_posts }} articles</p>
                 </a>
                 {% endif %}
             {% endfor %}
@@ -138,33 +118,55 @@
 
 {% block extra_js %}
 <script>
-    // Lightweight, zero-dependency search + sort
+(function() {
+    'use strict';
+    
     const searchInput = document.getElementById('searchInput');
     const sortSelect = document.getElementById('sortSelect');
     const grid = document.getElementById('categoriesGrid');
+    
+    if (!searchInput || !sortSelect || !grid) return;
+    
     const cards = Array.from(grid.querySelectorAll('a[data-name]'));
-
+    
     function updateGrid() {
+        const query = searchInput.value.toLowerCase().trim();
+        const sortBy = sortSelect.value;
+        
+        // Filter
         let filtered = cards.filter(card => {
-            const name = (card.dataset.name || '').toLowerCase();
-            const query = (searchInput?.value || '').toLowerCase();
+            const name = card.dataset.name || '';
             return name.includes(query);
         });
-
-        const sortBy = sortSelect?.value || 'popular';
+        
+        // Sort
         filtered.sort((a, b) => {
-            if (sortBy === 'name') return a.dataset.name.localeCompare(b.dataset.name);
-            if (sortBy === 'newest') return (b.dataset.created || 0) - (a.dataset.created || 0);
-            return (b.dataset.count || 0) - (a.dataset.count || 0);
+            switch(sortBy) {
+                case 'name':
+                    return a.dataset.name.localeCompare(b.dataset.name);
+                case 'newest':
+                    return parseInt(b.dataset.created || 0) - parseInt(a.dataset.created || 0);
+                case 'popular':
+                default:
+                    return parseInt(b.dataset.count || 0) - parseInt(a.dataset.count || 0);
+            }
         });
-
+        
+        // Re-append in new order
         filtered.forEach(card => grid.appendChild(card));
+        
+        // Hide cards not in filtered set
+        cards.forEach(card => {
+            card.style.display = filtered.includes(card) ? '' : 'none';
+        });
     }
-
-    searchInput?.addEventListener('input', updateGrid);
-    sortSelect?.addEventListener('change', updateGrid);
-
-    // Initial render
+    
+    // Event listeners
+    searchInput.addEventListener('input', updateGrid);
+    sortSelect.addEventListener('change', updateGrid);
+    
+    // Initial sort
     updateGrid();
+})();
 </script>
 {% endblock %}
