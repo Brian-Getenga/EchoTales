@@ -64,6 +64,9 @@ INSTALLED_APPS = [
     'blog',
     'users',
     'markdownx',
+    
+    'cloudinary',
+    'cloudinary_storage',
 
    
 ]
@@ -199,3 +202,14 @@ TINYMCE_DEFAULT_CONFIG = {
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_REDIRECT_URL = 'core:home'
+
+
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dffjkinko',
+    'API_KEY': '292362961636545',
+    'API_SECRET': 'jhjW6i2CeznP1-qB3bfvtWlxWhU',
+}
+
+# Tell Django to use Cloudinary for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
