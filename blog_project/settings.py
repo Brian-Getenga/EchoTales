@@ -155,7 +155,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -203,14 +202,33 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_REDIRECT_URL = 'core:home'
 
+# settings.py
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
+# ───── Cloudinary Config (Render reads from env vars) ─────
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_KEY':    os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# Tell Django to use Cloudinary for media files
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# Apply the config so Cloudinary SDK + CloudinaryField work
+cloudinary.config_update(CLOUDINARY_STORAGE)
 
+# Use Cloudinary as media storage
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Optional but highly recommended defaults
+CLOUDINARY_STORAGE.update({
+    'OVERWRITE': True,
+    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app'),  # change name if you want
+    'RESOURCE_TYPE': 'auto',
+})
+
+# ───── Static files (keep Whitenoise – Render loves it) ─────
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
