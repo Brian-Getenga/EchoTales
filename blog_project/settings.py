@@ -204,31 +204,42 @@ LOGOUT_REDIRECT_URL = 'core:home'
 
 # settings.py
 import os
+from pathlib import Path
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# ───── Cloudinary Config (Render reads from env vars) ─────
+# Build paths
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ───── CLOUDINARY CONFIGURATION (FIXED & WORKING) ─────
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY':    os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# Apply the config so Cloudinary SDK + CloudinaryField work
-cloudinary.config_update(CLOUDINARY_STORAGE)
+# CORRECT WAY — use cloudinary.config() with keyword arguments
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+    secure=True  # Forces HTTPS URLs (important in production)
+)
 
-# Use Cloudinary as media storage
+# Tell Django to store all media (ImageField, FileField) on Cloudinary
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# Optional but highly recommended defaults
+# Optional: nice defaults applied to every upload via Django forms
 CLOUDINARY_STORAGE.update({
     'OVERWRITE': True,
-    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app'),  # change name if you want
+    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app/media'),  # organized folder
     'RESOURCE_TYPE': 'auto',
+    'FORMAT': 'jpg',                    # optional: force JPG (or remove to keep original)
 })
 
-# ───── Static files (keep Whitenoise – Render loves it) ─────
+# ───── STATIC FILES (Whitenoise + Render compatible) ─────
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']                    # your custom static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'                      # where collectstatic puts everything
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
