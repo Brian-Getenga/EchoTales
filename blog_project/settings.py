@@ -212,34 +212,35 @@ import cloudinary.api
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ───── CLOUDINARY CONFIGURATION (FIXED & WORKING) ─────
+# ───── CLOUDINARY CONFIGURATION ─────
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY':    os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# CORRECT WAY — use cloudinary.config() with keyword arguments
 cloudinary.config(
     cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
     api_key=CLOUDINARY_STORAGE['API_KEY'],
     api_secret=CLOUDINARY_STORAGE['API_SECRET'],
-    secure=True  # Forces HTTPS URLs (important in production)
+    secure=True
 )
 
-# Tell Django to store all media (ImageField, FileField) on Cloudinary
+# Tell Django to store all media on Cloudinary
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# Optional: nice defaults applied to every upload via Django forms
 CLOUDINARY_STORAGE.update({
     'OVERWRITE': True,
-    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app/media'),  # organized folder
+    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app/media'),
     'RESOURCE_TYPE': 'auto',
-    'FORMAT': 'jpg',                    # optional: force JPG (or remove to keep original)
 })
 
-# ───── STATIC FILES (Whitenoise + Render compatible) ─────
+# ───── STATIC FILES (Whitenoise + Render) ─────
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']                    # your custom static files
-STATIC_ROOT = BASE_DIR / 'staticfiles'                      # where collectstatic puts everything
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ───── MEDIA SETTINGS (THESE TWO LINES WERE MISSING) ─────
+MEDIA_URL = '/media/'                     # ← REQUIRED
+MEDIA_ROOT = BASE_DIR / 'media'           # ← only used locally / during migration
