@@ -155,6 +155,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -202,45 +203,9 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_REDIRECT_URL = 'core:home'
 
-# settings.py
-import os
-from pathlib import Path
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
-# Build paths
-BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ───── CLOUDINARY CONFIGURATION ─────
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY':    os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
-
-cloudinary.config(
-    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
-    api_key=CLOUDINARY_STORAGE['API_KEY'],
-    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
-    secure=True
-)
-
-# Tell Django to store all media on Cloudinary
+# Tell Django to use Cloudinary for media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE.update({
-    'OVERWRITE': True,
-    'FOLDER': os.getenv('CLOUDINARY_FOLDER', 'my-django-app/media'),
-    'RESOURCE_TYPE': 'auto',
-})
 
-# ───── STATIC FILES (Whitenoise + Render) ─────
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# ───── MEDIA SETTINGS (THESE TWO LINES WERE MISSING) ─────
-MEDIA_URL = '/media/'                     # ← REQUIRED
-MEDIA_ROOT = BASE_DIR / 'media'           # ← only used locally / during migration

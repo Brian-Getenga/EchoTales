@@ -12,6 +12,7 @@ urlpatterns = [
 
 ]
 
+# ← THIS LINE IS MANDATORY IN PRODUCTION WITH CLOUDINARY
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
